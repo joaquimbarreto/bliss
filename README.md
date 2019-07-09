@@ -1,6 +1,6 @@
 # Bliss
 
-To start app: yarn start or try just 'yarn' and then 'yarn start'
+To start app: 'yarn start' or try just 'yarn' and then 'yarn start'
 
 ## Functional Requirements
 
