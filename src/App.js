@@ -3,27 +3,48 @@ import React, { useState, useEffect } from "react";
 import QuestionList from "./containers/QuestionList.js";
 import "./App.css";
 
-const API =
-  "https://private-bbbe9-blissrecruitmentapi.apiary-mock.com/questions?question_filter=FILTER";
+const questionsAPI =
+  "https://private-bbbe9-blissrecruitmentapi.apiary-mock.com/questions";
+
+const statusAPI =
+  "https://private-bbbe9-blissrecruitmentapi.apiary-mock.com/health";
+
 const numOfQuestionsPerPage = 10;
 
 const Question = () => {
   const [questions, setQuestions] = useState([]);
   const [activePage, setActivePage] = useState(1);
+  const [status, setStatus] = useState("");
   const [questionIndex, setQuestionIndex] = useState({
     indexOfFirstQuestion: 0,
     indexOfLastQuestion: 10
   });
   const [searchTerm, setSearchTerm] = useState("");
 
-  const fetchAPI = async () => {
-    const response = await fetch(API);
+  const fetchQuestionsAPI = async () => {
+    const response = await fetch(questionsAPI);
+    return await response.json();
+  };
+
+  const fetchStatusAPI = async () => {
+    const response = await fetch(statusAPI);
     return await response.json();
   };
 
   useEffect(() => {
-    fetchAPI().then(data => setQuestions(data));
+    fetchStatusAPI().then(data => {
+      if (data.status === "OK") {
+        setStatus(data.status);
+      }
+      setStatus(data.status);
+    });
   }, []);
+
+  useEffect(() => {
+    if (status === "OK") {
+      fetchQuestionsAPI().then(data => setQuestions(data));
+    }
+  }, [status]);
 
   const filterQuestions = () => {
     const chosenQuestions = [];
