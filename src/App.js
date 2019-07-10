@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 
 import QuestionList from "./containers/QuestionList.js";
+import ServerDown from "./components/ServerDown";
+import Share from "./components/Share";
 import "./App.css";
 
 const questionsAPI =
@@ -48,12 +50,14 @@ const Question = () => {
 
   const filterQuestions = () => {
     const chosenQuestions = [];
-    questions.forEach(question => {
+    questions.forEach(item => {
       if (searchTerm.length > 0) {
-        if (question.question.toLowerCase().includes(searchTerm.toLowerCase()))
-          chosenQuestions.push(question);
+        if (item.question.toLowerCase().includes(searchTerm.toLowerCase())) {
+          return chosenQuestions.push(item);
+        }
+      } else {
+        return chosenQuestions.push(item);
       }
-      chosenQuestions.push(question);
     });
     return chosenQuestions;
   };
@@ -114,15 +118,20 @@ const Question = () => {
 
   return (
     <div className="flex-container">
-      <QuestionList
-        questions={showQuestions()}
-        numOfQuestions={numQuestionsInChosenQuestions()}
-        nextQuestions={nextQuestions}
-        previousQuestions={previousQuestions}
-        handleClick={handlePaginateClick}
-        handleChange={handleChange}
-        activePage={activePage}
-      />
+      {status !== "OK" ? (
+        <ServerDown />
+      ) : (
+        <QuestionList
+          questions={showQuestions()}
+          numOfQuestions={numQuestionsInChosenQuestions()}
+          nextQuestions={nextQuestions}
+          previousQuestions={previousQuestions}
+          handleClick={handlePaginateClick}
+          handleChange={handleChange}
+          activePage={activePage}
+        />
+      )}
+      <Share />
     </div>
   );
 };

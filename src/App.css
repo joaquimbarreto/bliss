@@ -86,14 +86,24 @@ h3 {
   font-weight: 300;
 }
 
+img {
+  border-radius: 8px;
+  padding: 10px;
+}
+
 .description {
   display: flex;
+  cursor: pointer;
+}
+.description h1 {
+  margin: 10px;
+  padding: 20px;
 }
 
 .flex-container {
   display: flex;
   flex-direction: row-reverse;
-  /* flex-flow: row wrap; */
+  flex-flow: row wrap;
   text-align: center;
   max-width: 800px;
   margin: 2rem auto;
@@ -129,6 +139,10 @@ input:focus {
   transition: all 0.2s ease;
   cursor: auto;
   border: 1px solid var(--teal);
+}
+
+button {
+  border: none;
 }
 
 .question-item {
