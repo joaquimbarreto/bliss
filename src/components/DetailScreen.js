@@ -1,26 +1,19 @@
 import React, { useState, useEffect } from "react";
 
-const DetailScreen = props => {
-  const questionAPI =
-    "https://private-bbbe9-blissrecruitmentapi.apiary-mock.com/questions/" +
-    props.id;
+const questionAPI =
+  "https://private-bbbe9-blissrecruitmentapi.apiary-mock.com/questions/";
 
-  const [question, setQuestion] = useState([]);
-
-  const fetchQuestionAPI = async () => {
-    const response = await fetch(questionAPI);
-    return await response.json();
-  };
+const DetailScreen = ({ questionId }) => {
+  const [selectedQuestion, setSelectedQuestion] = useState({});
 
   useEffect(() => {
-    fetchQuestionAPI().then(data => {
-      setQuestion(data);
-    });
-  }, [fetchQuestionAPI]);
+    fetch(questionAPI + questionId).then(data => setSelectedQuestion(data));
+  }, [questionId, selectedQuestion]);
 
   return (
     <div>
-      <h1>{question.Question}</h1>
+      <img src={selectedQuestion.image_url} alt={selectedQuestion.id} />
+      <h1>{selectedQuestion.question}</h1>
     </div>
   );
 };

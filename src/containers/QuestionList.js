@@ -9,7 +9,8 @@ const QuestionList = ({
   previousQuestions,
   handleClick,
   handleChange,
-  activePage
+  activePage,
+  selectedId
 }) => {
   return (
     <div>
@@ -26,7 +27,7 @@ const QuestionList = ({
         {questions.map(question => {
           return (
             <li key={question.id}>
-              <QuestionDetails question={question} />
+              <QuestionDetails question={question} selectedId={selectedId} />
             </li>
           );
         })}

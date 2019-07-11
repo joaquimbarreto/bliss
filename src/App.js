@@ -23,6 +23,7 @@ const Question = () => {
     indexOfLastQuestion: 10
   });
   const [searchTerm, setSearchTerm] = useState("");
+  const [selectedId, setSelectedId] = useState(null);
 
   const fetchQuestionsAPI = async () => {
     const response = await fetch(questionsAPI);
@@ -117,6 +118,10 @@ const Question = () => {
     setSearchTerm(event.target.value);
   };
 
+  const handleSelectedId = id => {
+    setSelectedId(id);
+  };
+
   return (
     <div className="flex-container">
       <Switch>
@@ -135,11 +140,17 @@ const Question = () => {
                 handleClick={handlePaginateClick}
                 handleChange={handleChange}
                 activePage={activePage}
+                selectedId={handleSelectedId}
               />
             )}
           />
         )}
-        <Route path="/:id" component={DetailScreen} />
+        <Route
+          path="/:id"
+          render={routerProps => (
+            <DetailScreen {...routerProps} questionId={selectedId} />
+          )}
+        />
       </Switch>
       <Share />
     </div>
