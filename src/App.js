@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-
 import QuestionList from "./containers/QuestionList.js";
 import ServerDown from "./components/ServerDown";
+import DetailScreen from "./components/DetailScreen";
 import Share from "./components/Share";
+import { Route, Switch } from "react-router-dom";
 import "./App.css";
 
 const questionsAPI =
@@ -118,19 +119,28 @@ const Question = () => {
 
   return (
     <div className="flex-container">
-      {status !== "OK" ? (
-        <ServerDown />
-      ) : (
-        <QuestionList
-          questions={showQuestions()}
-          numOfQuestions={numQuestionsInChosenQuestions()}
-          nextQuestions={nextQuestions}
-          previousQuestions={previousQuestions}
-          handleClick={handlePaginateClick}
-          handleChange={handleChange}
-          activePage={activePage}
-        />
-      )}
+      <Switch>
+        {status !== "OK" ? (
+          <Route exact path="/serverdown" component={ServerDown} />
+        ) : (
+          <Route
+            path="/"
+            render={routerProps => (
+              <QuestionList
+                {...routerProps}
+                questions={showQuestions()}
+                numOfQuestions={numQuestionsInChosenQuestions()}
+                nextQuestions={nextQuestions}
+                previousQuestions={previousQuestions}
+                handleClick={handlePaginateClick}
+                handleChange={handleChange}
+                activePage={activePage}
+              />
+            )}
+          />
+        )}
+        <Route path="/:id" component={DetailScreen} />
+      </Switch>
       <Share />
     </div>
   );
